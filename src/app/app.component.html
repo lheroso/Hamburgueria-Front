@@ -1,51 +1,59 @@
 <!--The content below is only a placeholder and can be replaced.-->
 
-  <nav class='navbar navbar-expand'>
-       <ul class='nav nav-pills'>
-         <li><a class='nav-link'>Home</a></li>
-       </ul>
-   </nav>
+<nav class="navbar navbar-expand">
+  <ul class="nav nav-pills">
+    <li><a class="nav-link">Home</a></li>
+  </ul>
+</nav>
 
-   <!-- Lista de sanduiches -->
-   <div class="row">
-    <div class="col-sm-3" *ngFor="let lanche of lanches">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">{{lanche.name}}</h5>
-          <p class="card-text">Description</p>
-          <a href="#" class="btn btn-primary">Selecionar</a>
-        </div>
+<!-- Lista de sanduiches -->
+<div class="row">
+  <div class="col-sm-3" *ngFor="let lanche of lanches">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">{{ lanche.name }}</h5>
+        <p class="card-text">Description</p>
+        <a href="#" class="btn btn-primary" (click)="selectBurger(lanche)">Selecionar</a>
       </div>
     </div>
   </div>
-  <!-- Fim da lista de sanduiches -->
-  
-  <!-- Lista de ingredientes -->
-  <table>
-    <tr>
-      <th class="b-0">Ingrediente</th>
-      <th class="b-0">Preço unitário</th>
-      <th class="b-0">Quantidade</th>
-      <th class="b-0">Preço Final</th>
-    </tr>
-    <tr *ngFor="let ingredient of ingredients">
-      <td>{{ingredient.name}}</td>
-      <td>{{ingredient.price | currency:'BRL':true:'1.2-2'}}</td>
-      <td>
-        <button class="btn btn-primary " (click)="increaseAmount(ingredient)">+</button>
-        {{ingredient.quantity}}
-        <button class="btn btn-primary " (click)="decreaseAmount(ingredient)">-</button>
-      </td>
-      <td class="text-right">
-        <h5 class="font-medium m-b-30">{{getTotalIngredientPrice(ingredient.quantity, ingredient.price) | currency:'BRL':true:'1.2-2'}}</h5>
-      </td>
-    </tr>
-    <tr>
-      <td colspan="3" >{{getPrice() | currency:'BRL':true:'1.2-2'}} </td>
-      <td colspan="4" >
-        <button class="btn btn-danger">Pedir</button>
-      </td>
-    </tr>
-  </table>
-  <!-- Fim da lista de ingredientes -->
-  
+</div>
+<!-- Fim da lista de sanduiches -->
+
+<!-- Lista de ingredientes -->
+<table>
+  <tr>
+    <th class="b-0">Ingrediente</th>
+    <th class="b-0">Preço unitário</th>
+    <th class="b-0">Quantidade</th>
+    <th class="b-0">Preço Final</th>
+  </tr>
+  <tr *ngFor="let ingredient of ingredients">
+    <td>{{ ingredient.name }}</td>
+    <td>{{ ingredient.price | currency: "BRL":true:"1.2-2" }}</td>
+    <td>
+      <button class="btn btn-primary" (click)="increaseAmount(ingredient)">
+        +
+      </button>
+      {{ ingredient.quantity }}
+      <button class="btn btn-primary" (click)="decreaseAmount(ingredient)">
+        -
+      </button>
+    </td>
+    <td class="text-right">
+      <h5 class="font-medium m-b-30">
+        {{
+          getTotalIngredientPrice(ingredient.quantity, ingredient.price)
+            | currency: "BRL":true:"1.2-2"
+        }}
+      </h5>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="3">{{ getPrice() | currency: "BRL":true:"1.2-2" }}</td>
+    <td colspan="4">
+      <button class="btn btn-danger">Pedir</button>
+    </td>
+  </tr>
+</table>
+<!-- Fim da lista de ingredientes -->

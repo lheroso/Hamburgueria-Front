@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Ingrediente, lanches } from './mock-data';
+import { Ingrediente, Lanche, lanches } from './mock-data';
 import { IngredientService } from './ingredient.service';
 
 @Component({
@@ -11,7 +11,7 @@ import { IngredientService } from './ingredient.service';
 export class AppComponent {
   errorMessage = '';
   lanches = lanches;
-  ingredients: Ingrediente[] = [];
+  ingredients: Array<Ingrediente>;
   sub!: Subscription;
 
   constructor(private ingredientService: IngredientService) {}
@@ -34,6 +34,12 @@ export class AppComponent {
     return this.ingredients.reduce(function(acc, item) {
       return acc + (item.price * item.quantity);
   }, 0);
+  }
+
+  selectBurger(lanche: Lanche){
+    //let aux = lanches.find(l => l.id == id)?.ingredients;
+    this.ingredients = lanche.ingredients;
+    //this.testIngredients.push();
   }
 
   ngOnInit(): void {
