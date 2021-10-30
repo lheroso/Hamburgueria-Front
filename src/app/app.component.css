@@ -1,0 +1,22 @@
+.nav-link {
+  font-size: large;
+  cursor: pointer;
+}
+
+.price {
+  color: grey;
+  font-size: 22px;
+}
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  margin: 5em;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
