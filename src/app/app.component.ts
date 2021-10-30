@@ -37,9 +37,7 @@ export class AppComponent {
   }
 
   selectBurger(lanche: Lanche){
-    //let aux = lanches.find(l => l.id == id)?.ingredients;
     this.ingredients = lanche.ingredients;
-    //this.testIngredients.push();
   }
 
   ngOnInit(): void {
