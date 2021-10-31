@@ -2,18 +2,18 @@ import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable, throwError } from "rxjs";
 import { catchError, tap } from 'rxjs/operators';
-import { Ingredient } from "./ingredient";
+import { Hamburger } from "./hamburger";
 
 @Injectable({
   providedIn: 'root'
 })
-export class IngredientService {
-  private ingredientsUrl = 'api/ingredients.json';
+export class HamburgerService {
+  private hamburgerUrl = 'api/hamburgers.json';
 
   constructor(private http: HttpClient) { }
 
-  getIngredients(): Observable<Ingredient[]> {
-    return this.http.get<Ingredient[]>(this.ingredientsUrl)
+  getHamburgers(): Observable<Hamburger[]> {
+    return this.http.get<Hamburger[]>(this.hamburgerUrl)
       .pipe(
         tap(data => console.log('All: ', JSON.stringify(data))),
         catchError(this.handleError)

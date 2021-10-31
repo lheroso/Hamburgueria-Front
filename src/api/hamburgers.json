@@ -1,20 +1,56 @@
 [
   {
-    "id": 1, 
-    "name": "xBacon", 
-    "price": 0.4, 
-    "quantity": 0
+     "id":11,
+     "name":"X-Bacon",
+     "ingredients":[
+        {
+           "id":1,
+           "name":"Alface",
+           "price":0.4,
+           "quantity":1
+        },
+        {
+           "id":2,
+           "name":"Bacon",
+           "price":2,
+           "quantity":1
+        },
+        {
+           "id":3,
+           "name":"Hamburguer",
+           "price":3,
+           "quantity":1
+        }
+     ]
   },
   {
-    "id": 2, 
-    "name": "xEgg", 
-    "price": 2, 
-    "quantity": 0
+     "id":12,
+     "name":"X-Burger",
+     "ingredients":[
+        {
+           "id":1,
+           "name":"Alface",
+           "price":0.4,
+           "quantity":1
+        },
+        {
+           "id":3,
+           "name":"Hamburguer",
+           "price":3,
+           "quantity":1
+        }
+     ]
   },
   {
-    "id": 3, 
-    "name": "Hamburguer", 
-    "price": 3, 
-    "quantity": 0
+     "id":13,
+     "name":"X-Veg",
+     "ingredients":[
+        {
+           "id":1,
+           "name":"Alface",
+           "price":0.4,
+           "quantity":1
+        }
+     ]
   }
 ]

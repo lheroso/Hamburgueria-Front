@@ -8,12 +8,12 @@
 
 <!-- Lista de sanduiches -->
 <div class="row">
-  <div class="col-sm-3" *ngFor="let lanche of lanches">
+  <div class="col-sm-3" *ngFor="let hamburger of hamburgers">
     <div class="card">
       <div class="card-body">
-        <h5 class="card-title">{{ lanche.name }}</h5>
+        <h5 class="card-title">{{ hamburger.name }}</h5>
         <p class="card-text">Description</p>
-        <a href="#" class="btn btn-primary" (click)="selectBurger(lanche)">Selecionar</a>
+        <button type="button" class="btn btn-primary" (click)="selectBurger(hamburger)">Selecionar</button>
       </div>
     </div>
   </div>
@@ -32,12 +32,12 @@
     <td>{{ ingredient.name }}</td>
     <td>{{ ingredient.price | currency: "BRL":true:"1.2-2" }}</td>
     <td>
-      <button class="btn btn-primary" (click)="increaseAmount(ingredient)">
-        +
-      </button>
-      {{ ingredient.quantity }}
       <button class="btn btn-primary" (click)="decreaseAmount(ingredient)">
         -
+      </button>
+      {{ ingredient.quantity }}
+      <button class="btn btn-primary" (click)="increaseAmount(ingredient)">
+        +
       </button>
     </td>
     <td class="text-right">
