@@ -1,18 +1,15 @@
-<!--The content below is only a placeholder and can be replaced.-->
-
 <nav class="navbar navbar-expand">
   <ul class="nav nav-pills">
-    <li><a class="nav-link">Home</a></li>
+    <li><a class="nav-link" (click)="loadHomePage()">Home</a></li>
   </ul>
 </nav>
 
 <!-- Lista de sanduiches -->
-<div class="row">
+<div class="row" *ngIf="!selectedBurger">
   <div class="col-sm-3" *ngFor="let hamburger of hamburgers">
     <div class="card">
       <div class="card-body">
         <h5 class="card-title">{{ hamburger.name }}</h5>
-        <p class="card-text">Description</p>
         <button type="button" class="btn btn-primary" (click)="selectBurger(hamburger)">Selecionar</button>
       </div>
     </div>
@@ -21,7 +18,7 @@
 <!-- Fim da lista de sanduiches -->
 
 <!-- Lista de ingredientes -->
-<table>
+<table *ngIf="selectedBurger && !ordered">
   <tr>
     <th class="b-0">Ingrediente</th>
     <th class="b-0">Preço unitário</th>
@@ -40,20 +37,30 @@
         +
       </button>
     </td>
-    <td class="text-right">
-      <h5 class="font-medium m-b-30">
-        {{
+    <td class="text-right">{{
           getTotalIngredientPrice(ingredient.quantity, ingredient.price)
-            | currency: "BRL":true:"1.2-2"
-        }}
-      </h5>
+            | currency: "BRL":true:"1.2-2"}}
     </td>
   </tr>
+<!-- Fim da lista de ingredientes -->
+
+<tr class="price" *ngIf="discount>0">
+    <td colspan="3" >Preço:</td>
+    <td colspan="4">{{ getPrice() | currency: "BRL":true:"1.2-2" }}</td>
+  </tr>
+  <tr class="discount" *ngIf="discount>0">
+    <td colspan="3" >Desconto:</td>
+    <td colspan="4">{{ discount | currency: "BRL":true:"1.2-2" }}</td>
+  </tr>
+  <tr class="finalPrice">
+    <td colspan="3" >Preço Final:</td>
+    <td colspan="4">{{ getPrice()-discount | currency: "BRL":true:"1.2-2" }}</td>
+  </tr>
   <tr>
-    <td colspan="3">{{ getPrice() | currency: "BRL":true:"1.2-2" }}</td>
-    <td colspan="4">
-      <button class="btn btn-danger">Pedir</button>
+    <td colspan="4" class="order">
+      <button class="btn btn-danger" (click)="toggleOrdered()">Pedir</button>
     </td>
   </tr>
 </table>
-<!-- Fim da lista de ingredientes -->
+
+<p class="finalMessage" *ngIf="ordered">Pedido realizado com sucesso!</p>
