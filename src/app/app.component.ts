@@ -13,13 +13,13 @@ import { calculateDiscountPriceModel } from './calculateDiscountPriceModel';
 })
 export class AppComponent implements OnInit{
   selectedBurger = false; //toggle for the HTML ingredient section
-  burgerID = 0;
+  burgerID = 0; //selected burger's ID
   ordered = false; //toggle for the final screen
   errorMessage = '';
   discount = 0; //variable for the discount value
   hamburgers: Array<Hamburger>; //list of hamburgers from server side
-  ingredients: Ingredient[] = []; //list of ingredients from server side
-  hamburgerIngredients:HamburgerIngredient[] = [];
+  ingredients: Ingredient[] = []; //list of all available ingredients from server side
+  hamburgerIngredients:HamburgerIngredient[] = []; //selected burger's ingredients' Ids 
 
   constructor(private ingredientService: IngredientService, private hamburgerService: HamburgerService) {}
 

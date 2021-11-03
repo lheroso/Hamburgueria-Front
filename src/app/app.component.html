@@ -18,53 +18,57 @@
 <!-- Fim da lista de sanduiches -->
 
 <!-- Lista de ingredientes -->
-<table *ngIf="selectedBurger && !ordered">
-  <tr>
-    <th class="b-0">Ingrediente</th>
-    <th class="b-0">Preço unitário</th>
-    <th class="b-0">Quantidade</th>
-    <th class="b-0">Preço Final</th>
-  </tr>
-  <tr *ngFor="let ingredient of ingredients">
-    <td>{{ ingredient.name }}</td>
-    <td>{{ ingredient.price | currency: "BRL":true:"1.2-2" }}</td>
-    <td>
-      <button class="btn btn-primary" (click)="decreaseAmount(ingredient)">
-        -
-      </button>
-      {{ getIngredientQuantity(ingredient.ingredientID) }}
-      <button class="btn btn-primary" (click)="increaseAmount(ingredient)">
-        +
-      </button>
-    </td>
-    <td class="text-right">{{
-          getTotalIngredientPrice(ingredient)
-            | currency: "BRL":true:"1.2-2"}}
-    </td>
-  </tr>
-<!-- Fim da lista de ingredientes -->
+<div>
+  <table *ngIf="selectedBurger && !ordered">
+    <tr>
+      <th class="b-0">Ingrediente</th>
+      <th class="b-0">Preço unitário</th>
+      <th class="b-0">Quantidade</th>
+      <th class="b-0">Preço Final</th>
+    </tr>
+    <tr *ngFor="let ingredient of ingredients">
+      <td>{{ ingredient.name }}</td>
+      <td>{{ ingredient.price | currency: "BRL":true:"1.2-2" }}</td>
+      <td>
+        <button class="btn btn-primary" (click)="decreaseAmount(ingredient)">
+          -
+        </button>
+        {{ getIngredientQuantity(ingredient.ingredientID) }}
+        <button class="btn btn-primary" (click)="increaseAmount(ingredient)">
+          +
+        </button>
+      </td>
+      <td class="text-right">{{
+            getTotalIngredientPrice(ingredient)
+              | currency: "BRL":true:"1.2-2"}}
+      </td>
+    </tr>
+  <!-- Fim da lista de ingredientes -->
 
-<!-- Preços -->
+  <!-- Preços -->
 
-<tr class="price" *ngIf="discount>0">
-    <td colspan="3" >Preço:</td>
-    <td colspan="4">{{ getPrice() | currency: "BRL":true:"1.2-2" }}</td>
-  </tr>
-  <tr class="discount" *ngIf="discount>0">
-    <td colspan="3" >Desconto:</td>
-    <td colspan="4">{{ discount | currency: "BRL":true:"1.2-2" }}</td>
-  </tr>
-  <tr class="finalPrice">
-    <td colspan="3" >Preço Final:</td>
-    <td colspan="4">{{ getPrice()-discount | currency: "BRL":true:"1.2-2" }}</td>
-  </tr>
-  <tr>
-    <td colspan="4" class="order">
-      <button class="btn btn-danger" (click)="toggleOrdered()">Pedir</button>
-    </td>
-  </tr>
-</table>
+  <tr class="price" *ngIf="discount>0">
+      <td colspan="3" >Preço:</td>
+      <td colspan="4">{{ getPrice() | currency: "BRL":true:"1.2-2" }}</td>
+    </tr>
+    <tr class="discount" *ngIf="discount>0">
+      <td colspan="3" >Desconto:</td>
+      <td colspan="4">{{ discount | currency: "BRL":true:"1.2-2" }}</td>
+    </tr>
+    <tr class="finalPrice">
+      <td colspan="3" >Preço Final:</td>
+      <td colspan="4">{{ getPrice()-discount | currency: "BRL":true:"1.2-2" }}</td>
+    </tr>
+    <tr>
+      <td colspan="4" class="order">
+        <button class="btn btn-danger" (click)="toggleOrdered()">Pedir</button>
+      </td>
+    </tr>
+  </table>
+
+</div>
 
 <!-- Fim dos preços -->
-
-<p class="finalMessage" *ngIf="ordered">Pedido realizado com sucesso!</p>
+<div>
+  <p class="finalMessage" *ngIf="ordered">Pedido realizado com sucesso!</p>
+</div>
