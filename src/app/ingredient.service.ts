@@ -1,7 +1,9 @@
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable, throwError } from "rxjs";
 import { catchError, tap } from 'rxjs/operators';
+import { calculateDiscountPriceModel } from "./calculateDiscountPriceModel";
+import { HamburgerIngredient } from "./hamburgerIngredient";
 import { Ingredient } from "./ingredient";
 
 @Injectable({
@@ -21,8 +23,8 @@ export class IngredientService {
       );
   }
   
-  calculateDiscountPrice(ingredients:Ingredient[]): Observable<number> {
-    return this.http.post<number>("https://localhost:44329/getDiscount", ingredients)
+  calculateDiscountPrice(hamburgerIngredients:calculateDiscountPriceModel): Observable<number> {
+    return this.http.post<number>("https://localhost:44329/getDiscount", hamburgerIngredients)
       .pipe(
         tap(data => console.log('All: ', JSON.stringify(data))),
         catchError(this.handleError)

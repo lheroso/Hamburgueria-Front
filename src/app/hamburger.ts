@@ -1,7 +1,4 @@
-import { Ingredient } from "./ingredient";
-
 export interface Hamburger {
-  id: number;
+  hamburgerID: number;
   name: string;
-  ingredients: Array<Ingredient>;
 }

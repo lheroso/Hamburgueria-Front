@@ -1,9 +1,10 @@
 import { Component, OnInit, SimpleChanges} from '@angular/core';
-import { Subscription } from 'rxjs';
 import { IngredientService } from './ingredient.service';
 import { HamburgerService } from './hamburger.service';
 import { Hamburger } from './hamburger';
 import { Ingredient } from './ingredient';
+import { HamburgerIngredient } from './hamburgerIngredient';
+import { calculateDiscountPriceModel } from './calculateDiscountPriceModel';
 
 @Component({
   selector: 'pm-root',
@@ -12,39 +13,55 @@ import { Ingredient } from './ingredient';
 })
 export class AppComponent implements OnInit{
   selectedBurger = false; //toggle for the HTML ingredient section
+  burgerID = 0;
   ordered = false; //toggle for the final screen
   errorMessage = '';
   discount = 0; //variable for the discount value
   hamburgers: Array<Hamburger>; //list of hamburgers from server side
   ingredients: Ingredient[] = []; //list of ingredients from server side
-  initIngredients: Ingredient[] = [];
-  sub!: Subscription;
+  hamburgerIngredients:HamburgerIngredient[] = [];
 
   constructor(private ingredientService: IngredientService, private hamburgerService: HamburgerService) {}
 
-  getTotalIngredientPrice(amount:number, price:number): number{
-    return amount * price;
+  getTotalIngredientPrice(ingredient:Ingredient): number{
+    //return amount * price;
+    return 0;
   }
 
   increaseAmount(ingredient:Ingredient):void {
-    ingredient.quantity = ingredient.quantity+1;
+    let index;
+    index = this.hamburgerIngredients.findIndex(t => t.IngredientID == ingredient.ingredientID);
+    if(index==-1){
+      this.hamburgerIngredients.push({ HamburgerID: this.burgerID, IngredientID: ingredient.ingredientID, IngredientQuantity: 1 })
+    }
+    else
+      this.hamburgerIngredients[index].IngredientQuantity = this.hamburgerIngredients[index].IngredientQuantity+1
     this.setDiscount();
   }
 
   decreaseAmount(ingredient:Ingredient):void {
-    if (ingredient.quantity !=0)
-      ingredient.quantity = ingredient.quantity-1;
+    this.setDiscount();
+    let index;
+    index = this.hamburgerIngredients.findIndex(t => t.IngredientID == ingredient.ingredientID);
+    if (this.hamburgerIngredients[index].IngredientQuantity !=0)
+      this.hamburgerIngredients[index].IngredientQuantity = this.hamburgerIngredients[index].IngredientQuantity-1
     this.setDiscount();
   }
 
   getPrice():number {
-    return this.ingredients.reduce(function(acc, item) {
-      return acc + (item.price * item.quantity);
-    }, 0);
+    let finalPrice = 0;
+    this.ingredients.forEach(ingredient => {
+      finalPrice = finalPrice + ingredient.price * this.getIngredientQuantity(ingredient.ingredientID);
+    });
+
+    return finalPrice;
+
   }
 
   setDiscount():void {
-    this.ingredientService.calculateDiscountPrice(this.ingredients).subscribe({
+    let calculateDiscountPriceModel: calculateDiscountPriceModel = {HamburgerIngredient: this.hamburgerIngredients, Ingredient: this.ingredients} ;
+
+    this.ingredientService.calculateDiscountPrice(calculateDiscountPriceModel).subscribe({
       next: item => {
       this.discount=item;
     },
@@ -52,19 +69,30 @@ export class AppComponent implements OnInit{
     })
   }
 
+  getIngredientQuantity(ingredientID:number):number{
+    return this.hamburgerIngredients.find(t => t.IngredientID == ingredientID)?.IngredientQuantity || 0;
+  }
+
   loadHomePage():void{
     window.location.reload();
   }
 
   selectBurger(burger: Hamburger){
-    this.ingredients = [...this.initIngredients];
-    let burgerIngredients = [...burger.ingredients]
-    this.ingredients = this.ingredients.map(item => {
-      let lancheIngredient = burgerIngredients.find(element => element.id === item.id)
-      return lancheIngredient ? lancheIngredient : item
-    })
-    this.setDiscount();
-    this.selectedBurger = true;
+
+    this.burgerID = burger.hamburgerID;
+    this.hamburgerService.getHamburgerIngredients(String(burger.hamburgerID)).subscribe({
+      next: item => {
+      let ingredients = item;
+      ingredients.forEach(ingredient => {
+        this.hamburgerIngredients.push({ HamburgerID: burger.hamburgerID, IngredientID: ingredient.ingredientID, IngredientQuantity: 1 })
+      });
+
+      this.setDiscount();
+      this.selectedBurger = true;
+    },
+    error: err => this.errorMessage = err
+    });
+
   }
 
   toggleOrdered(): void {
@@ -73,16 +101,15 @@ export class AppComponent implements OnInit{
 
   ngOnInit(): void {
 
-    this.sub = this.ingredientService.getIngredients().subscribe({
+    this.ingredientService.getIngredients().subscribe({
       next: items => {
-        this.initIngredients = items;
         this.ingredients = items;
 
       },
       error: err => this.errorMessage = err
     });
     
-    this.sub = this.hamburgerService.getHamburgers().subscribe({
+    this.hamburgerService.getHamburgers().subscribe({
       next: hamburgers => {
         this.hamburgers = hamburgers;
       },

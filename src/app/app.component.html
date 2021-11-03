@@ -32,17 +32,19 @@
       <button class="btn btn-primary" (click)="decreaseAmount(ingredient)">
         -
       </button>
-      {{ ingredient.quantity }}
+      {{ getIngredientQuantity(ingredient.ingredientID) }}
       <button class="btn btn-primary" (click)="increaseAmount(ingredient)">
         +
       </button>
     </td>
     <td class="text-right">{{
-          getTotalIngredientPrice(ingredient.quantity, ingredient.price)
+          getTotalIngredientPrice(ingredient)
             | currency: "BRL":true:"1.2-2"}}
     </td>
   </tr>
 <!-- Fim da lista de ingredientes -->
+
+<!-- Preços -->
 
 <tr class="price" *ngIf="discount>0">
     <td colspan="3" >Preço:</td>
@@ -62,5 +64,7 @@
     </td>
   </tr>
 </table>
+
+<!-- Fim dos preços -->
 
 <p class="finalMessage" *ngIf="ordered">Pedido realizado com sucesso!</p>
